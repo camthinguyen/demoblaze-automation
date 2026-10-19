@@ -11,6 +11,12 @@ console.log('Environment file loaded:', Boolean(process.env.TEST_USERNAME));
 export default defineConfig({
   testDir: './tests',
 
+  // Enable parallel execution of tests within a file
+  fullyParallel: true,
+
+  // Run up to 4 workers in parallel
+  workers: 4,
+
   reporter: [
     ['list'],
     ['html', { 
@@ -21,7 +27,7 @@ export default defineConfig({
 
   use: {
     baseURL: 'https://www.demoblaze.com',
-    headless: false,
+    headless: !!process.env.CI || false,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure'

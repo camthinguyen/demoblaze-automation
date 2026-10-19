@@ -34,24 +34,25 @@ export default defineConfig({
   },
 
   projects: [
-    {
-      name: 'chromium',
-      testMatch: '**/ui/**/*.spec.ts',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      testMatch: '**/ui/**/*.spec.ts',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      testMatch: '**/ui/**/*.spec.ts',
-      use: { ...devices['Desktop Safari'] },
-    },
-    {
-      name: 'api',
-      testMatch: '**/api/**/*.spec.ts',
-    },
-  ],
+  {
+    name: 'chromium',
+    testMatch: '**/ui/**/*.spec.ts',
+    use: { ...devices['Desktop Chrome'] },
+  },
+  {
+    name: 'firefox',
+    testMatch: '**/ui/**/*.spec.ts',
+    use: { ...devices['Desktop Firefox'] },
+  },
+  {
+    name: 'webkit',
+    testMatch: '**/ui/**/*.spec.ts',
+    use: { ...devices['Desktop Safari'] },
+  },
+  {
+  name: 'api',
+  testDir: './tests/api',
+  testMatch: '**/*.spec.ts'
+  },
+],
 });

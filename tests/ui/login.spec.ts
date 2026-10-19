@@ -6,6 +6,8 @@ test('LOG-01: Login with valid credentials', async ({
 }) => {
   await page.goto('/');
 
+;
+
   await loginPage.login(
      process.env.TEST_USERNAME!,
      process.env.TEST_PASSWORD!

@@ -1,8 +1,18 @@
+# macOS
+.DS_Store
 
-# Playwright
+# IDE
+.idea/
+
+# Dependencies
 node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+
+# Playwright reports
+playwright-report/
+test-results/
+
+# Credentials
+test-data.env
+.env
+.env.*
+!.env.example

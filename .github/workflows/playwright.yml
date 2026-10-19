@@ -1,15 +1,11 @@
-
-name: Demoblaze Automation
+name: Demoblaze Automation CI
 
 on:
-  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
-permissions:
-  contents: read
+  workflow_dispatch:
 
 jobs:
   ui-tests:
@@ -29,24 +25,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Chromium
+      - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
       - name: Run UI tests
         run: npx playwright test --project=chromium
         env:
-          CI: true
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
-      - name: Upload UI report
+      - name: Upload UI HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: ui-playwright-report
-          path: |
-            playwright-report/
-            test-results/
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload UI test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: ui-test-results
+          path: test-results/
+          if-no-files-found: ignore
           retention-days: 14
 
   api-tests:
@@ -69,22 +71,28 @@ jobs:
       - name: Run API tests
         run: npx playwright test --project=api
         env:
-          CI: true
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
-      - name: Upload API report
+      - name: Upload API HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
           name: api-playwright-report
-          path: |
-            playwright-report/
-            test-results/
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload API test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: api-test-results
+          path: test-results/
+          if-no-files-found: ignore
           retention-days: 14
 
   performance-tests:
-    name: Performance Tests (k6)
+    name: Performance Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -94,17 +102,30 @@ jobs:
       - name: Set up k6
         uses: grafana/setup-k6-action@v1
 
-      - name: Run k6 performance test
+      - name: Run all k6 JavaScript scripts
+        shell: bash
         run: |
+          set -euo pipefail
           mkdir -p performance-results
-          k6 run \
-            --summary-export=performance-results/k6-summary.json \
-            performance/k6/entries.ts
+
+          shopt -s nullglob
+          files=(performance/*.js)
+
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No k6 JavaScript files found in performance/"
+            exit 1
+          fi
+
+          for file in "${files[@]}"; do
+            echo "Running $file"
+            k6 run "$file"
+          done
 
       - name: Upload performance report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
-          name: performance-k6-report
+          name: performance-report
           path: performance-results/
+          if-no-files-found: ignore
           retention-days: 14

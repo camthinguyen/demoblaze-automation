@@ -40,6 +40,7 @@ jobs:
         with:
           name: ui-playwright-report
           path: playwright-report/
+          if-no-files-found: error
           retention-days: 14
 
       - name: Upload UI test results
@@ -80,6 +81,7 @@ jobs:
         with:
           name: api-playwright-report
           path: playwright-report/
+          if-no-files-found: error
           retention-days: 14
 
       - name: Upload API test results
@@ -117,8 +119,12 @@ jobs:
           fi
 
           for file in "${files[@]}"; do
+            name=$(basename "$file" .js)
             echo "Running $file"
-            k6 run "$file"
+
+            k6 run \
+              --summary-export="performance-results/${name}-summary.json" \
+              "$file"
           done
 
       - name: Upload performance report
@@ -127,5 +133,5 @@ jobs:
         with:
           name: performance-report
           path: performance-results/
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 14

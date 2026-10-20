@@ -22,54 +22,6 @@ test.describe('Demoblaze Login API', () => {
     const responseBody = await response.text();
 
     // Demoblaze returns a token message on successful login.
-    // expect(responseBody).toContain('Auth_token:');
+    expect(responseBody).toContain('Auth_token:');
   });
-
-  // test('API-LOGIN-02: Login with incorrect password', async ({ request }) => {
-  //   const username = process.env.TEST_USERNAME;
-
-  //   expect(username, 'TEST_USERNAME must be configured').toBeTruthy();
-
-  //   const response = await request.post(LOGIN_URL, {
-  //     data: {
-  //       username,
-  //       password: 'WrongPassword123!',
-  //     },
-  //   });
-
-  //   expect(response.status()).toBe(200);
-
-  //   const responseBody = await response.text();
-
-  //   // Demoblaze can return application errors in a HTTP 200 response.
-  //   expect(responseBody).toContain('Wrong password.');
-  // });
-
-  // test('API-LOGIN-03: Login with missing username', async ({ request }) => {
-  //   const response = await request.post(LOGIN_URL, {
-  //     data: {
-  //       password: 'SomePassword123!',
-  //     },
-  //   });
-
-  //   expect(response.status()).toBe(200);
-
-  //   const responseBody = await response.text();
-  //   expect(responseBody).toBeTruthy();
-  // });
-
-  // test('API-LOGIN-04: Login with missing password', async ({ request }) => {
-  //   const username = process.env.TEST_USERNAME;
-
-  //   expect(username, 'TEST_USERNAME must be configured').toBeTruthy();
-
-  //   const response = await request.post(LOGIN_URL, {
-  //     data: { username },
-  //   });
-
-  //   expect(response.status()).toBe(200);
-
-  //   const responseBody = await response.text();
-  //   expect(responseBody).toBeTruthy();
-  // });
 });

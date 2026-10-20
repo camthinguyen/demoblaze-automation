@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { LoginPage } from '../ui/pages/LoginPage';
+import { LoginPage } from '../pages/ui/LoginPage';
 
 type TestFixtures = {
   loginPage: LoginPage;

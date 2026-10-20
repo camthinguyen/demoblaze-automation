@@ -25,6 +25,12 @@ export default defineConfig({
     }],
   ],
 
+  timeout: 30000, // Maximum duration for each test: 30 seconds
+
+  expect: {
+    timeout: 15000, // Default timeout for assertions: 15 seconds
+  },
+
   use: {
     baseURL: 'https://www.demoblaze.com',
     headless: !!process.env.CI || false,

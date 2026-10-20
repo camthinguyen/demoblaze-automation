@@ -180,6 +180,7 @@ Performance tests should run through a separate, controlled workflow or job, wit
 
 - Expand UI, API and performance regression coverage.
 - Improve test data isolation.
+- Run UI and API regression tests automatically on a daily or weekly schedule.
 
 ## 12. Disclaimer
 

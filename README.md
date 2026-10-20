@@ -85,7 +85,9 @@ Install k6 separately if you intend to run performance tests.
 
 ## 5. Configure Test Data
 
-Create `test-data.env` in the project root if your tests require credentials.
+From https://www.demoblaze.com/index.html, sign up a new account.
+
+Create `test-data.env` in the project root with your tests account.
 
 ```dotenv
 TEST_USERNAME=your_test_username

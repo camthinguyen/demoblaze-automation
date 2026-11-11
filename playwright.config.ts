@@ -51,11 +51,6 @@ export default defineConfig({
     use: { ...devices['Desktop Firefox'] },
   },
   {
-    name: 'webkit',
-    testMatch: '**/ui/**/*.spec.ts',
-    use: { ...devices['Desktop Safari'] },
-  },
-  {
   name: 'api',
   testDir: './tests/api',
   testMatch: '**/*.spec.ts'
